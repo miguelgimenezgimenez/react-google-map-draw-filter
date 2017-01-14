@@ -6,21 +6,31 @@ import sinon from 'sinon';
 
 import GoogleMapDrawFilter from '../src/GoogleMapDrawFilter';
 
+
+
 describe('GoogleMapDrawFilter', () => {
-  let wrapper;
+  let map = null;
+  let sandbox;
+  let LatLng = null;
+  let location;
+  let google = global.google;
 
-  describe('google prop', () => {
-    it('should require an `apiKey` prop', () => {
-      expect(() => mount(<GoogleMapDrawFilter />)).to.throw(Error);
-    });
+  beforeEach(() => {
+    console.log(google);
+    sandbox = sinon.sandbox.create();
 
-    it('does not explode with a `google` prop', () => {
-      expect(() => mount(
-        <GoogleMapDrawFilter
-          apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-         />
-      )).not.to.throw(Error);
-    });
+    map = {};
+    location = {lat: 37.759703, lng: -122.428093};
+
+    // sandbox.stub(google.maps, 'Map').returns(google.maps.Map);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('accepts a `map` and a `google` prop', () => {
+    expect(true).toBe(true);
   });
 
 });

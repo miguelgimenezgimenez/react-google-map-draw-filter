@@ -131,6 +131,9 @@ class Map extends React.Component {
           })
         }
         markersArray.push(marker);
+        if (this.props.handleReturnedMarkers) {
+          this.props.handleReturnedMarkers(insideMarkers);
+        }
       })
     }
 
@@ -153,8 +156,6 @@ class Map extends React.Component {
         })
         this.map = new maps.Map(node, mapConfiguration);
         this.getMarkers();
-
-
       }
     }
 

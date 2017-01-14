@@ -12,6 +12,7 @@ let ApiKey;
 class GoogleMapPolygonFilter extends React.Component {
 
 	componentWillMount(){
+		console.log(ApiKey);
 		ApiKey=this.props.apiKey;
 	}
 
