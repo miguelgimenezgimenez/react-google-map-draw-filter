@@ -9,7 +9,7 @@ import Map from './Map';
 let ApiKey;
 
 
-class GoogleMapPolygonFilter extends React.Component {
+class GoogleMapDrawFilter extends React.Component {
 
 	componentWillMount(){
 		console.log(ApiKey);
@@ -38,7 +38,7 @@ class GoogleMapPolygonFilter extends React.Component {
 
 
 
-GoogleMapPolygonFilter.propTypes={
+GoogleMapDrawFilter.propTypes={
 	apiKey:React.PropTypes.string.isRequired,
 	drawMode:React.PropTypes.bool,
 	markers:React.PropTypes.array,
@@ -49,7 +49,7 @@ GoogleMapPolygonFilter.propTypes={
 	handleReturnedMarkers:React.PropTypes.func,
 	onMarkerClick:React.PropTypes.func
 }
-GoogleMapPolygonFilter.defaultProps={
+GoogleMapDrawFilter.defaultProps={
 	drawMode:true,
 	mapConfig:{
 		zoom:14,
@@ -78,4 +78,4 @@ GoogleMapPolygonFilter.defaultProps={
 
 export default GoogleApiComponent({
 	apiKey: ApiKey
-})(GoogleMapPolygonFilter)
+})(GoogleMapDrawFilter)

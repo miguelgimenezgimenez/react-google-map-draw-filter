@@ -102,7 +102,7 @@ class App extends Component {
           <GoogleMapDrawFilter
             drawMode={this.state.drawMode}
             markers={markers}
-            // apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+            apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
             handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
             onMarkerClick={this.onMarkerClick.bind(this)}
           />

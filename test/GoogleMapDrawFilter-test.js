@@ -4,33 +4,40 @@ import {shallow, mount, render} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import GoogleMapDrawFilter from '../src/GoogleMapDrawFilter';
+import Map from '../src/Map';
 
+const marker=[{latLng:{lat: 37.759703, lng: -122.428093}}];
 
-
-describe('GoogleMapDrawFilter', () => {
+describe('Map', () => {
   let map = null;
   let sandbox;
   let LatLng = null;
   let location;
   let google = global.google;
 
-  beforeEach(() => {
-    console.log(google);
-    sandbox = sinon.sandbox.create();
 
-    map = {};
-    location = {lat: 37.759703, lng: -122.428093};
+  it('handles returned markers', () => {
+console.log('testing');
+    const handleReturnedMarkers = sinon.stub();
+    const spy = sinon.spy();
+    const wrapper = shallow(
+      <Map
+        apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 
-    // sandbox.stub(google.maps, 'Map').returns(google.maps.Map);
+        markers={marker}
+        handleReturnedMarkers={handleReturnedMarkers} />
+      );
+      wrapper.simulate('handleReturnedMarkers');
+      // console.log(handleReturnedMarkers.toString());
+      // sandbox = sinon.sandbox.create();
+      // // sandbox.stub(, 'Map').returns(google.maps.Map);
+      //
+      // sinon.assert.calledOnce(handleReturnedMarkers);
+      console.log(handleReturnedMarkers.firstCall.args);
+      console.log(spy);
+      console.log(handleReturnedMarkers('hello'));
+      console.log(handleReturnedMarkers.firstCall.args);
+
+    });
+
   });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  it('accepts a `map` and a `google` prop', () => {
-    expect(true).toBe(true);
-  });
-
-});

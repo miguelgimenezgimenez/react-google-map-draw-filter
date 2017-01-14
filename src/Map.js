@@ -14,11 +14,12 @@ class Map extends React.Component {
     };
   }
   componentDidMount() {
+    console.log('mount');
+
     this.loadMap();
 
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log(prevProps.google, this.props.google);
 
     if (prevProps.google !== this.props.google) {
       this.loadMap();
@@ -82,7 +83,7 @@ class Map extends React.Component {
             }
           }
         })
-        if (this.props.handleReturnedMarkers) {
+        if (this.props.handleReturnedMarkers) {          console.log('handlw');
           this.props.handleReturnedMarkers(insideMarkers);
         }
       }
@@ -104,6 +105,8 @@ class Map extends React.Component {
   // DISPLAY MARKERS IN MAP
   //======================================================
   getMarkers(){
+    console.log(this.props.drawMode);
+
     const {google} = this.props;
     const maps = google.maps;
 
@@ -132,6 +135,7 @@ class Map extends React.Component {
         }
         markersArray.push(marker);
         if (this.props.handleReturnedMarkers) {
+          console.log('handlw');
           this.props.handleReturnedMarkers(insideMarkers);
         }
       })
@@ -160,7 +164,6 @@ class Map extends React.Component {
     }
 
     render() {
-
       return (
         <div
           style={this.props.mapStyle}
