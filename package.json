@@ -1,6 +1,6 @@
 {
   "name": "react-google-map-draw-filter",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "GoogleMapDrawFilter",
   "main": "lib/GoogleMapDrawFilter.js",
   "author": "Miguel Gimenez",
