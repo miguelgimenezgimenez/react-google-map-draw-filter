@@ -102,7 +102,6 @@ class Map extends React.Component {
   // DISPLAY MARKERS IN MAP
   //======================================================
   getMarkers(){
-    console.log('getmarkers');
     const {google} = this.props;
     const maps = google.maps;
 
