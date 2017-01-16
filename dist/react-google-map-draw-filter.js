@@ -109,7 +109,7 @@ var _GoogleApi2 = _interopRequireDefault(_GoogleApi);
 var defaultMapConfig = {};
 var wrapper = function wrapper(options) {
   return function (WrappedComponent) {
-    var apiKey = options.apiKey;
+    var apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
     var libraries = options.libraries || ['places'];
 
     var Wrapper = (function (_React$Component) {
@@ -134,27 +134,32 @@ var wrapper = function wrapper(options) {
 
           var refs = this.refs;
           this.scriptCache.google.onLoad(function (err, tag) {
-            var maps = window.google.maps;
-            var props = _extends({}, _this.props, {
-              loaded: _this.state.loaded
-            });
+            try {
+              var maps = window.google.maps;
+              var props = _extends({}, _this.props, {
+                loaded: _this.state.loaded
+              });
 
-            var mapRef = refs.map;
+              var mapRef = refs.map;
 
-            var node = _reactDom2['default'].findDOMNode(mapRef);
-            var center = new maps.LatLng(_this.props.lat, _this.props.lng);
+              var node = _reactDom2['default'].findDOMNode(mapRef);
+              var center = new maps.LatLng(_this.props.lat, _this.props.lng);
 
-            var mapConfig = _extends({}, defaultMapConfig, {
-              center: center, zoom: _this.props.zoom
-            });
+              var mapConfig = _extends({}, defaultMapConfig, {
+                center: center, zoom: _this.props.zoom
+              });
 
-            _this.map = new maps.Map(node, mapConfig);
+              _this.map = new maps.Map(node, mapConfig);
 
-            _this.setState({
-              loaded: true,
-              map: _this.map,
-              google: window.google
-            });
+              _this.setState({
+                loaded: true,
+                map: _this.map,
+                google: window.google
+              });
+            } catch (e) {
+              window.location.reload();
+              console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
+            }
           });
         }
       }, {
@@ -347,18 +352,19 @@ var _Map2 = _interopRequireDefault(_Map);
 
 var ApiKey = undefined;
 
-var GoogleMapPolygonFilter = (function (_React$Component) {
-	_inherits(GoogleMapPolygonFilter, _React$Component);
+var GoogleMapDrawFilter = (function (_React$Component) {
+	_inherits(GoogleMapDrawFilter, _React$Component);
 
-	function GoogleMapPolygonFilter() {
-		_classCallCheck(this, GoogleMapPolygonFilter);
+	function GoogleMapDrawFilter() {
+		_classCallCheck(this, GoogleMapDrawFilter);
 
-		_get(Object.getPrototypeOf(GoogleMapPolygonFilter.prototype), 'constructor', this).apply(this, arguments);
+		_get(Object.getPrototypeOf(GoogleMapDrawFilter.prototype), 'constructor', this).apply(this, arguments);
 	}
 
-	_createClass(GoogleMapPolygonFilter, [{
+	_createClass(GoogleMapDrawFilter, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
+			console.log(ApiKey);
 			ApiKey = this.props.apiKey;
 		}
 	}, {
@@ -382,11 +388,10 @@ var GoogleMapPolygonFilter = (function (_React$Component) {
 		}
 	}]);
 
-	return GoogleMapPolygonFilter;
+	return GoogleMapDrawFilter;
 })(_react2['default'].Component);
 
-GoogleMapPolygonFilter.propTypes = {
-	apiKey: _react2['default'].PropTypes.string.isRequired,
+GoogleMapDrawFilter.propTypes = {
 	drawMode: _react2['default'].PropTypes.bool,
 	markers: _react2['default'].PropTypes.array,
 	mapConfig: _react2['default'].PropTypes.object,
@@ -396,7 +401,7 @@ GoogleMapPolygonFilter.propTypes = {
 	handleReturnedMarkers: _react2['default'].PropTypes.func,
 	onMarkerClick: _react2['default'].PropTypes.func
 };
-GoogleMapPolygonFilter.defaultProps = {
+GoogleMapDrawFilter.defaultProps = {
 	drawMode: true,
 	mapConfig: {
 		zoom: 14,
@@ -423,7 +428,7 @@ GoogleMapPolygonFilter.defaultProps = {
 
 exports['default'] = (0, _ApiComponentsGoogleApiComponent2['default'])({
 	apiKey: ApiKey
-})(GoogleMapPolygonFilter);
+})(GoogleMapDrawFilter);
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -474,15 +479,14 @@ var Map = (function (_React$Component) {
     };
   }
 
+  // componentDidMount() {
+  //   this.loadMap();
+  //
+  // }
+
   _createClass(Map, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.loadMap();
-    }
-  }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      // console.log(prevProps.google, this.props.google);
 
       if (prevProps.google !== this.props.google) {
         this.loadMap();
@@ -575,14 +579,17 @@ var Map = (function (_React$Component) {
     value: function getMarkers() {
       var _this2 = this;
 
+      console.log('getmarkers');
       var google = this.props.google;
 
       var maps = google.maps;
 
       this.props.markers.forEach(function (flag) {
         var markerProps = _extends({}, flag, {
-          position: new google.maps.LatLng(flag.latLng.lng, flag.latLng.lat),
-          map: _this2.map });
+          position: new google.maps.LatLng(flag.latLng.lat, flag.latLng.lng),
+          map: _this2.map
+        });
+
         var marker = new maps.Marker(markerProps);
 
         if (_this2.props.onMarkerClick) {
@@ -604,32 +611,38 @@ var Map = (function (_React$Component) {
           })();
         }
         markersArray.push(marker);
+        if (_this2.props.handleReturnedMarkers) {
+          _this2.props.handleReturnedMarkers(markersArray);
+        }
       });
     }
   }, {
     key: 'loadMap',
     value: function loadMap() {
-      if (this.props && this.props.google) {
-        // google is available
-        var google = this.props.google;
+      var _this3 = this;
 
-        var maps = google.maps;
+      // if (this.props && this.props.google) {
+      // google is available
+      var google = this.props.google;
 
-        var mapRef = this.refs.map;
-        var node = _reactDom2['default'].findDOMNode(mapRef);
-        var mapConfig = this.props.mapConfig;
-        var zoom = mapConfig.zoom;
-        var lat = mapConfig.lat;
-        var lng = mapConfig.lng;
+      var maps = google.maps;
 
-        var center = new maps.LatLng(lat, lng);
-        var mapConfiguration = _extends({}, {
-          center: center,
-          zoom: zoom
-        });
-        this.map = new maps.Map(node, mapConfiguration);
-        this.getMarkers();
-      }
+      var mapRef = this.refs.map;
+      var node = _reactDom2['default'].findDOMNode(mapRef);
+      var mapConfig = this.props.mapConfig;
+      var zoom = mapConfig.zoom;
+      var lat = mapConfig.lat;
+      var lng = mapConfig.lng;
+
+      var center = new maps.LatLng(lat, lng);
+      var mapConfiguration = _extends({}, {
+        center: center,
+        zoom: zoom
+      });
+      this.map = new maps.Map(node, mapConfiguration);
+      google.maps.event.addListenerOnce(this.map, 'idle', function () {
+        _this3.getMarkers();
+      });
     }
   }, {
     key: 'render',
@@ -647,8 +660,6 @@ var Map = (function (_React$Component) {
 
   return Map;
 })(_react2['default'].Component);
-
-;
 
 exports['default'] = Map;
 module.exports = exports['default'];

@@ -1,6 +1,6 @@
 {
   "name": "react-google-map-draw-filter",
-  "version": "1.0.5",
+  "version": "1.0.10",
   "description": "GoogleMapDrawFilter",
   "main": "lib/GoogleMapDrawFilter.js",
   "author": "Miguel Gimenez",
@@ -34,9 +34,7 @@
     "react-dom": "^15.4.2",
     "sinon": "^1.17.7"
   },
-  "peerDependencies": {
-    "react": "^15.4.2"
-  },
+
   "browserify-shim": {
     "react": "global:React"
   },
