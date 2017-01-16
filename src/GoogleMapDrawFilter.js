@@ -25,10 +25,11 @@ class GoogleMapDrawFilter extends React.Component {
 					polygonOptions={this.props.polygonOptions}
 					handleReturnedMarkers={this.props.handleReturnedMarkers}
 					onMarkerClick={this.props.onMarkerClick}
+					insertMarker={this.props.insertMarker}
 				/>
 
 			</div>
-		)
+		);
 	}
 }
 
@@ -42,10 +43,13 @@ GoogleMapDrawFilter.propTypes={
 	google:React.PropTypes.object, //is provided by wrapper
 	mapStyle:React.PropTypes.object,
 	handleReturnedMarkers:React.PropTypes.func,
-	onMarkerClick:React.PropTypes.func
-}
+	onMarkerClick:React.PropTypes.func,
+	insertMarker:React.PropTypes.bool
+};
+
 GoogleMapDrawFilter.defaultProps={
 	drawMode:true,
+	insertMarker:false,
 	mapConfig:{
 		zoom:14,
 		lat:41.384279176844764,
@@ -66,11 +70,10 @@ GoogleMapDrawFilter.defaultProps={
 		zIndex: 1
 	},
 	markers:[],
-
-}
+};
 
 
 
 export default GoogleApiComponent({
 	apiKey: ApiKey
-})(GoogleMapDrawFilter)
+})(GoogleMapDrawFilter);
