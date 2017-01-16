@@ -13,20 +13,17 @@ class Map extends React.Component {
       drawMode:false,
     };
   }
-  componentDidMount() {
-    console.log('mount');
-
-    this.loadMap();
-
-  }
+  // componentDidMount() {
+  //   this.loadMap();
+  //
+  // }
   componentDidUpdate(prevProps, prevState) {
+
 
     if (prevProps.google !== this.props.google) {
       this.loadMap();
       if (this.props.drawMode) {
         this.drawPolyline();
-
-
       }
     }
   }
@@ -83,7 +80,7 @@ class Map extends React.Component {
             }
           }
         })
-        if (this.props.handleReturnedMarkers) {          console.log('handlw');
+        if (this.props.handleReturnedMarkers) {
           this.props.handleReturnedMarkers(insideMarkers);
         }
       }
@@ -105,16 +102,19 @@ class Map extends React.Component {
   // DISPLAY MARKERS IN MAP
   //======================================================
   getMarkers(){
-    console.log(this.props.drawMode);
-
+    console.log('getmarkers');
     const {google} = this.props;
     const maps = google.maps;
+
 
     this.props.markers.forEach((flag)=>{
       const markerProps=({
         ...flag,
-        position: new google.maps.LatLng(flag.latLng.lng,flag.latLng.lat),
-        map: this.map,})
+        position: new google.maps.LatLng(flag.latLng.lat,flag.latLng.lng),
+        map: this.map
+      })
+
+
         const marker = new maps.Marker(markerProps);
 
         if (this.props.onMarkerClick) {
@@ -135,35 +135,37 @@ class Map extends React.Component {
         }
         markersArray.push(marker);
         if (this.props.handleReturnedMarkers) {
-          console.log('handlw');
-          this.props.handleReturnedMarkers(insideMarkers);
+          this.props.handleReturnedMarkers(markersArray);
         }
       })
     }
 
     loadMap(){
-      if (this.props && this.props.google) {
-        // google is available
-        const {google} = this.props;
-        const maps = google.maps;
+      // if (this.props && this.props.google) {
+      // google is available
+      const {google} = this.props;
+      const maps = google.maps;
 
-        const mapRef = this.refs.map;
-        const node = ReactDOM.findDOMNode(mapRef);
-        const {mapConfig}=this.props;
-        let {zoom} = mapConfig;
-        let {lat} = mapConfig;
-        let {lng} = mapConfig;
-        const center = new maps.LatLng(lat, lng);
-        const mapConfiguration = Object.assign({}, {
-          center: center,
-          zoom: zoom
-        })
-        this.map = new maps.Map(node, mapConfiguration);
+      const mapRef = this.refs.map;
+      const node = ReactDOM.findDOMNode(mapRef);
+      const {mapConfig}=this.props;
+      let {zoom} = mapConfig;
+      let {lat} = mapConfig;
+      let {lng} = mapConfig;
+      const center = new maps.LatLng(lat, lng);
+      const mapConfiguration = Object.assign({}, {
+        center: center,
+        zoom: zoom
+      })
+      this.map = new maps.Map(node, mapConfiguration);
+      google.maps.event.addListenerOnce(this.map, 'idle', ()=>{
         this.getMarkers();
-      }
+      });
+
     }
 
     render() {
+
       return (
         <div
           style={this.props.mapStyle}
@@ -172,7 +174,7 @@ class Map extends React.Component {
         </div>
       )
     }
-  };
+  }
 
 
   export default Map;
