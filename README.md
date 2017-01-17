@@ -36,28 +36,9 @@ npm install react-google-map-draw-filter --save
 
 
 ``` js
-const markers = [
-  			{
-  				info:'- Marker1',
-          label:'A',
-  				title:'hello',
-  				latLng:{lng:2.13815342634916,lat:41.39485570794}
-  			},
+const markers = [{info:' Marker1', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}
 
-  			{
-          label:'B',
-  				info:'- Marker2',
-  				latLng:{lng:2.1575260162353516,lat: 41.39586980544921}
-  			},
-
-  			{
-          label:'C',
-  				info:'- Marker 3',
-  				latLng:{lng:2.162332534790039 ,lat:41.397801375978204}
-  			},
-
-  			       
-
+  	
   		];
 
 import GoogleMap from "react-google-map-draw-filter";
@@ -86,7 +67,9 @@ GoogleMap.propTypes={
 	google:React.PropTypes.object, //is provided by wrapper
 	mapStyle:React.PropTypes.object,
 	handleReturnedMarkers:React.PropTypes.func,
-	insertMarker={this.props.insertMarker}
+	insertMarker:React.PropTypes.bool,
+	onMarkerClick:React.PropTypes.func,
+
 
 }
 GoogleMap.defaultProps={
@@ -115,10 +98,15 @@ GoogleMap.defaultProps={
 
 ```
 ### Examples
-
-
-
-
+IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
+```js
+  <Map
+                mapStyle={{height:400,width:800}}
+                drawMode={false}
+                insertMarker={true}
+                handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
+              />
+	      ```
 
 ## Development (`src`, `lib` and the build process)
 
