@@ -63,7 +63,7 @@ class App extends Component {
   			},
 
   			{
-  				info:'lesbian party',
+  				info:' party',
   				latLng:{lng:2.142505645751953 ,lat:41.38344199588044}
   			},
   			{
