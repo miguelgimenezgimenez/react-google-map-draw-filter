@@ -130,10 +130,10 @@ class Map extends React.Component {
   getMarkers(){
     const {google} = this.props;
     const maps = google.maps;
-    markersArray=[];
     markersArray.forEach(marker=>{
       marker.setMap(null);
     })
+    markersArray=[];
 
     this.props.markers.forEach((flag)=>{
       const markerProps=({
