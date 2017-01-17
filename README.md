@@ -35,21 +35,23 @@ npm install react-google-map-draw-filter --save
 ## Usage
 The 3 main props are : 
 
-- ### markers: 
+- #### markers: 
 an array of objects that has to have a latLng property with lat lng properties like the example below, this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
 the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
 
-- ### handleReturnedMarkers:
+- #### handleReturnedMarkers:
 callback fired when the polygon is closed returning the markers within the polygon, also when the polygon is resized, with the selected markers as only argument of the callback.
 
-- ### onMarkerClick:
+- #### onMarkerClick:
 callback fired when marker is clicked.Also has the marker as only argument of the callback.
 
-- ### drawMode :
+- #### drawMode :
 Boolean that to can be used to turn on the draw mode. By default is ON.
 
-- ### insertMarker
+- #### insertMarker
 Boolean to insert a marker in the map. If set to on a draggable marker will be rendered in the map wherever you click. the callback handleReturnedMarkers is fired when set and dragged on the map.
+
+### Examples
 
 ``` js
 const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
@@ -62,7 +64,20 @@ import GoogleMap from "react-google-map-draw-filter";
 					markers={markers} // array of objects containing a latLng property with lat and lng properties	
 					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
 				/>
+				
+				
+				
 ```
+
+IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
+```js
+  <Map
+                mapStyle={{height:400,width:800}}
+                drawMode={false}
+                insertMarker={true}
+                handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
+              />
+	      ```
 
 ### Properties
 
@@ -110,16 +125,7 @@ GoogleMap.defaultProps={
 }
 
 ```
-### Examples
-IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
-```js
-  <Map
-                mapStyle={{height:400,width:800}}
-                drawMode={false}
-                insertMarker={true}
-                handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
-              />
-	      ```
+
 
 ## Development (`src`, `lib` and the build process)
 
