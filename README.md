@@ -35,20 +35,20 @@ npm install react-google-map-draw-filter --save
 ## Usage
 The 3 main props are : 
 
-- # markers: 
+- ### markers: 
 an array of objects that has to have a latLng property with lat lng properties like the example below, this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
 the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
 
-- # handleReturnedMarkers:
+- ### handleReturnedMarkers:
 callback fired when the polygon is closed returning the markers within the polygon, also when the polygon is resized, with the selected markers as only argument of the callback.
 
-- # onMarkerClick:
+- ### onMarkerClick:
 callback fired when marker is clicked.Also has the marker as only argument of the callback.
 
-- # drawMode :
+- ### drawMode :
 Boolean that to can be used to turn on the draw mode. By default is ON.
 
-- # insertMarker
+- ### insertMarker
 Boolean to insert a marker in the map. If set to on a draggable marker will be rendered in the map wherever you click. the callback handleReturnedMarkers is fired when set and dragged on the map.
 
 ``` js
