@@ -1,7 +1,7 @@
 export const GoogleApi = function(opts) {
   opts = opts || {}
 
-  const apiKey = opts.apiKey;
+  const apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
   const libraries = opts.libraries || [];
   const client = opts.client;
   const URL = 'https://maps.googleapis.com/maps/api/js';
