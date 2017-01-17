@@ -1,6 +1,11 @@
 # GoogleMap Draw Polygon Filter
 
-React component that includes a google map which allows the possibility to draw a polygon and output and filter the markers within the polygon
+React component that includes a google map which allows the possibility to draw a draggable polygon and output and filter the markers within the polygon.
+
+Also allow the possibility to insert markers and output return their coordinates.
+
+
+THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleApi.js" component, WHICH IS IN THE "GoogleApi" FOLDER.
 
 ## Demo & Examples
 
@@ -31,17 +36,40 @@ npm install react-google-map-draw-filter --save
 
 
 ``` js
+const markers = [
+  			{
+  				info:'- Marker1',
+          label:'A',
+  				title:'hello',
+  				latLng:{lng:2.13815342634916,lat:41.39485570794}
+  			},
+
+  			{
+          label:'B',
+  				info:'- Marker2',
+  				latLng:{lng:2.1575260162353516,lat: 41.39586980544921}
+  			},
+
+  			{
+          label:'C',
+  				info:'- Marker 3',
+  				latLng:{lng:2.162332534790039 ,lat:41.397801375978204}
+  			},
+
+  			       
+
+  		];
+
 import GoogleMap from "react-google-map-draw-filter";
 <GoogleMap
 					drawMode={true} //boolean that toggles draw mode (optional)
 					markers={markers} // array of objects containing a latLng property with lat and lng properties	
-					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
+					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
 				/>
 ```
 
 ### Properties
 
-THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleApi.js" component, WHICH IS IN THE "GoogleApi" FOLDER.
 
 the markers prop is an array of object containining a latLng object with lat and lng properties and any properties you want to provide which will be returned after the polygon filter.
 
@@ -86,7 +114,9 @@ GoogleMap.defaultProps={
 }
 
 ```
-### Notes
+### Examples
+
+
 
 
 
