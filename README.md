@@ -77,9 +77,11 @@ IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED
                 insertMarker={true}
                 handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
               />
-	      ```
+	  ```
 
-### Properties
+
+
+### PropTypes
 
 
 You can provide polygon , and Marker options the same way you would in google maps, 
