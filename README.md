@@ -33,15 +33,30 @@ npm install react-google-map-draw-filter --save
 
 
 ## Usage
+The 3 main props are : 
 
+- # markers: 
+an array of objects that has to have a latLng property with lat lng properties like the example below, this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
+the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
+
+- # handleReturnedMarkers:
+callback fired when the polygon is closed returning the markers within the polygon, also when the polygon is resized, with the selected markers as only argument of the callback.
+
+- # onMarkerClick:
+callback fired when marker is clicked.Also has the marker as only argument of the callback.
+
+- # drawMode :
+Boolean that to can be used to turn on the draw mode. By default is ON.
+
+- # insertMarker
+Boolean to insert a marker in the map. If set to on a draggable marker will be rendered in the map wherever you click. the callback handleReturnedMarkers is fired when set and dragged on the map.
 
 ``` js
-const markers = [{info:' Marker1', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}
-
-  	
-  		];
+const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
 
 import GoogleMap from "react-google-map-draw-filter";
+
+
 <GoogleMap
 					drawMode={true} //boolean that toggles draw mode (optional)
 					markers={markers} // array of objects containing a latLng property with lat and lng properties	
@@ -51,8 +66,6 @@ import GoogleMap from "react-google-map-draw-filter";
 
 ### Properties
 
-
-the markers prop is an array of object containining a latLng object with lat and lng properties and any properties you want to provide which will be returned after the polygon filter.
 
 You can provide polygon , and Marker options the same way you would in google maps, 
 the mapStyle takes widtht and height property for the map, set to 600px by default 
