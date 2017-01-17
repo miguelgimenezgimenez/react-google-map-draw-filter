@@ -1,4 +1,4 @@
-/* 
+/*
 // Examples Stylesheet
 // -------------------
 */
@@ -21,6 +21,11 @@ a:hover {
   margin-right: auto;
   max-width: 720px;
   padding: 1em;
+}
+button {
+  margin-left: 250px;
+  height: 25px;
+  margin-bottom: 30px;
 }
 .footer {
   margin-top: 50px;
