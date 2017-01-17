@@ -23,7 +23,7 @@ class App extends Component {
 					{marker.label}
 					{marker.info}
 				</div>)
-			)
+			);
 		}
 	}
 
