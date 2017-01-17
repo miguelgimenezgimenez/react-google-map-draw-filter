@@ -4,7 +4,7 @@ React component that includes a google map which allows the possibility to draw 
 
 ## Demo & Examples
 
-Live demo: [miguelgimenezgimenez.github.io/react-gmap-filter](http://miguelgimenezgimenez.github.io/react-gmap-filter/)
+Live demo: [miguelgimenezgimenez.github.io/react-google-map-draw-filter](http://miguelgimenezgimenez.github.io/react-google-map-draw-filter/)
 
 To build the examples locally, run:
 
