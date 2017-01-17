@@ -56,10 +56,10 @@ Boolean to insert a marker in the map. If set to on a draggable marker will be r
 ``` js
 const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
 
-import GoogleMap from "react-google-map-draw-filter";
+import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 
-<GoogleMap
+<GoogleMapDrawFilter
 					drawMode={true} //boolean that toggles draw mode (optional)
 					markers={markers} // array of objects containing a latLng property with lat and lng properties	
 					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
@@ -71,12 +71,12 @@ import GoogleMap from "react-google-map-draw-filter";
 IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
 
 ``` js
-  <Map
+  <GoogleMapDrawFilter
                 mapStyle={{height:400,width:800}}
                 drawMode={false}
                 insertMarker={true}
                 handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
-              /
+              />
 ```
 
 
