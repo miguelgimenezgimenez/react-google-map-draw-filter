@@ -27,7 +27,7 @@ Object.defineProperty(exports, '__esModule', {
 var GoogleApi = function GoogleApi(opts) {
   opts = opts || {};
 
-  var apiKey = opts.apiKey;
+  var apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
   var libraries = opts.libraries || [];
   var client = opts.client;
   var URL = 'https://maps.googleapis.com/maps/api/js';
@@ -362,12 +362,6 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 	}
 
 	_createClass(GoogleMapDrawFilter, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			console.log(ApiKey);
-			ApiKey = this.props.apiKey;
-		}
-	}, {
 		key: 'render',
 		value: function render() {
 
@@ -382,7 +376,8 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 					mapStyle: this.props.mapStyle,
 					polygonOptions: this.props.polygonOptions,
 					handleReturnedMarkers: this.props.handleReturnedMarkers,
-					onMarkerClick: this.props.onMarkerClick
+					onMarkerClick: this.props.onMarkerClick,
+					insertMarker: this.props.insertMarker
 				})
 			);
 		}
@@ -399,10 +394,13 @@ GoogleMapDrawFilter.propTypes = {
 	google: _react2['default'].PropTypes.object, //is provided by wrapper
 	mapStyle: _react2['default'].PropTypes.object,
 	handleReturnedMarkers: _react2['default'].PropTypes.func,
-	onMarkerClick: _react2['default'].PropTypes.func
+	onMarkerClick: _react2['default'].PropTypes.func,
+	insertMarker: _react2['default'].PropTypes.bool
 };
+
 GoogleMapDrawFilter.defaultProps = {
 	drawMode: true,
+	insertMarker: false,
 	mapConfig: {
 		zoom: 14,
 		lat: 41.384279176844764,
@@ -423,7 +421,6 @@ GoogleMapDrawFilter.defaultProps = {
 		zIndex: 1
 	},
 	markers: []
-
 };
 
 exports['default'] = (0, _ApiComponentsGoogleApiComponent2['default'])({
@@ -479,19 +476,17 @@ var Map = (function (_React$Component) {
     };
   }
 
-  // componentDidMount() {
-  //   this.loadMap();
-  //
-  // }
-
   _createClass(Map, [{
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
 
       if (prevProps.google !== this.props.google) {
         this.loadMap();
-        if (this.props.drawMode) {
+        if (this.props.drawMode && !this.props.insertMarker) {
           this.drawPolyline();
+        }
+        if (this.props.insertMarker) {
+          this.insertMarker();
         }
       }
     }
@@ -504,9 +499,34 @@ var Map = (function (_React$Component) {
       }
     }
   }, {
+    key: 'insertMarker',
+    value: function insertMarker() {
+      var google = this.props.google;
+
+      var maps = google.maps;
+
+      google.maps.event.addListener(this.map, 'click', (function (e) {
+        var _this = this;
+
+        var markerProps = {
+          position: new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()),
+          map: this.map,
+          draggable: true
+        };
+        var marker = new maps.Marker(markerProps);
+
+        this.props.handleReturnedMarkers({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+
+        marker.addListener('dragend', function (e) {
+          _this.props.handleReturnedMarkers({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+        });
+      }).bind(this));
+    }
+  }, {
     key: 'drawPolyline',
     value: function drawPolyline() {
       var google = this.props.google;
+
       var drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControl: false,
@@ -517,7 +537,7 @@ var Map = (function (_React$Component) {
       // Event listeners after Polygon closed
       //======================================================
       google.maps.event.addListener(drawingManager, 'polygoncomplete', (function (polyline) {
-        var _this = this;
+        var _this2 = this;
 
         drawingManager.setDrawingMode(null);
         var resizablePolygon = polyline.getPath();
@@ -527,8 +547,8 @@ var Map = (function (_React$Component) {
         google.maps.event.addListener(polyline, 'click', function (e) {
           polyline.setMap(null);
           resizablePolygon = [];
-          _this.getMarkers();
-          _this.drawPolyline();
+          _this2.getMarkers();
+          _this2.drawPolyline();
         });
         //======================================================
         // Filtering function
@@ -548,12 +568,12 @@ var Map = (function (_React$Component) {
             } else {
               insideMarkers.push(marker);
               if (!marker.map) {
-                marker.setMap(_this.map);
+                marker.setMap(_this2.map);
               }
             }
           });
-          if (_this.props.handleReturnedMarkers) {
-            _this.props.handleReturnedMarkers(insideMarkers);
+          if (_this2.props.handleReturnedMarkers) {
+            _this2.props.handleReturnedMarkers(insideMarkers);
           }
         };
         filterMarkers();
@@ -577,9 +597,8 @@ var Map = (function (_React$Component) {
   }, {
     key: 'getMarkers',
     value: function getMarkers() {
-      var _this2 = this;
+      var _this3 = this;
 
-      console.log('getmarkers');
       var google = this.props.google;
 
       var maps = google.maps;
@@ -587,14 +606,14 @@ var Map = (function (_React$Component) {
       this.props.markers.forEach(function (flag) {
         var markerProps = _extends({}, flag, {
           position: new google.maps.LatLng(flag.latLng.lat, flag.latLng.lng),
-          map: _this2.map
+          map: _this3.map
         });
 
         var marker = new maps.Marker(markerProps);
 
-        if (_this2.props.onMarkerClick) {
+        if (_this3.props.onMarkerClick) {
           google.maps.event.addListener(marker, 'click', function (event) {
-            _this2.props.onMarkerClick(marker);
+            _this3.props.onMarkerClick(marker);
           });
         }
         //======================================================
@@ -606,20 +625,20 @@ var Map = (function (_React$Component) {
               content: marker.info
             });
             google.maps.event.addListener(marker, 'click', function (event) {
-              infowindow.open(_this2.map, marker);
+              infowindow.open(_this3.map, marker);
             });
           })();
         }
         markersArray.push(marker);
-        if (_this2.props.handleReturnedMarkers) {
-          _this2.props.handleReturnedMarkers(markersArray);
+        if (_this3.props.handleReturnedMarkers) {
+          _this3.props.handleReturnedMarkers(markersArray);
         }
       });
     }
   }, {
     key: 'loadMap',
     value: function loadMap() {
-      var _this3 = this;
+      var _this4 = this;
 
       // if (this.props && this.props.google) {
       // google is available
@@ -641,7 +660,7 @@ var Map = (function (_React$Component) {
       });
       this.map = new maps.Map(node, mapConfiguration);
       google.maps.event.addListenerOnce(this.map, 'idle', function () {
-        _this3.getMarkers();
+        _this4.getMarkers();
       });
     }
   }, {
