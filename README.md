@@ -71,13 +71,13 @@ import GoogleMap from "react-google-map-draw-filter";
 IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
 
 ``` js
-  <Map
+  <Map
                 mapStyle={{height:400,width:800}}
                 drawMode={false}
                 insertMarker={true}
                 handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
-              />
-	  ```
+              /
+```
 
 
 
