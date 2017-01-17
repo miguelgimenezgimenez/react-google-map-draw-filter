@@ -18,7 +18,7 @@ class Map extends React.Component {
 
     if (prevProps.google !== this.props.google) {
       this.loadMap();
-      if (this.props.drawMode) {
+      if (this.props.drawMode && !this.props.insertMarker) {
         this.drawPolyline();
       }
       if (this.props.insertMarker) {

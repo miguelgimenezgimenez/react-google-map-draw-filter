@@ -44,7 +44,7 @@
     "lint": "eslint ./; true",
     "publish:site": "NODE_ENV=production gulp publish:examples",
     "release": "NODE_ENV=production gulp release",
-    "start": "gulp dev:server",
+    "start": "gulp dev",
     "test": "mocha test/.setup.js test/**/*-test.js",
     "watch": "gulp watch:lib"
   },
