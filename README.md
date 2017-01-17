@@ -34,7 +34,8 @@ npm install react-google-map-draw-filter --save
 import GoogleMap from "react-google-map-draw-filter";
 <GoogleMap
 					drawMode={true} //boolean that toggles draw mode (optional)
-					markers={markers} // array of objects containing a latLng property with lat and lng properties				    handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
+					markers={markers} // array of objects containing a latLng property with lat and lng properties	
+					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
 				/>
 ```
 
