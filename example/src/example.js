@@ -27,7 +27,6 @@ class App extends Component {
 		}
 	}
 
-
   handleReturnedMarkers(markers) {
     this.setState({
       activeMarkers: markers
