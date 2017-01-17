@@ -34,15 +34,13 @@ npm install react-gmap-filter --save
 var GoogleMapPolygonFilter = require('react-gmap-filter');
 <GoogleMapPolygonFilter
 					drawMode={true} //boolean that toggles draw mode (optional)
-					markers={markers} // array of objects containing a latLng property with lat and lng properties
-					apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc' //REQUIRED
-					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
+					markers={markers} // array of objects containing a latLng property with lat and lng properties				    handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed
 				/>
 ```
 
 ### Properties
 
-YOU WILL NEED TO PROVIDE A GOOGLE API KEY.
+THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleApi.js" component, WHICH IS IN THE "GoogleApi" FOLDER.
 
 the markers prop is an array of object containining a latLng object with lat and lng properties and any properties you want to provide which will be returned after the polygon filter.
 
