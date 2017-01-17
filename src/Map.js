@@ -25,10 +25,12 @@ class Map extends React.Component {
       if (this.props.insertMarker) {
         this.insertMarker();
       }
+
     }
-    if (prevProps.markers!==this.props.markers && this.state.loaded){
+    if (prevProps.markers.length!==this.props.markers.length && this.state.loaded){
       this.getMarkers();
     }
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,8 +38,6 @@ class Map extends React.Component {
     if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
       this.drawPolyline();
     }
-
-
 
   }
   insertMarker(){
