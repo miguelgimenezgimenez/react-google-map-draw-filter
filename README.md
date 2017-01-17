@@ -63,13 +63,13 @@ import GoogleMap from "react-google-map-draw-filter";
 					drawMode={true} //boolean that toggles draw mode (optional)
 					markers={markers} // array of objects containing a latLng property with lat and lng properties	
 					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
-				/>
-				
-				
+				/>								
 				
 ```
 
+
 IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
+
 ```js
   <Map
                 mapStyle={{height:400,width:800}}
@@ -86,6 +86,8 @@ IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED
 
 You can provide polygon , and Marker options the same way you would in google maps, 
 the mapStyle takes widtht and height property for the map, set to 600px by default 
+
+
 ``` js
 
 GoogleMap.propTypes={
