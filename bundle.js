@@ -352,7 +352,8 @@ var Map = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Map.prototype), 'constructor', this).call(this);
     this.state = {
-      drawMode: false
+      drawMode: false,
+      loaded: false
     };
   }
 
@@ -362,12 +363,15 @@ var Map = (function (_React$Component) {
 
       if (prevProps.google !== this.props.google) {
         this.loadMap();
-        if (this.props.drawMode && !this.props.insertMarker) {
+        if (this.props.drawMode) {
           this.drawPolyline();
         }
         if (this.props.insertMarker) {
           this.insertMarker();
         }
+      }
+      if (prevProps.markers !== this.props.markers && this.state.loaded) {
+        this.getMarkers();
       }
     }
   }, {
@@ -396,7 +400,6 @@ var Map = (function (_React$Component) {
         var marker = new maps.Marker(markerProps);
 
         this.props.handleReturnedMarkers({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-
         marker.addListener('dragend', function (e) {
           _this.props.handleReturnedMarkers({ lat: e.latLng.lat(), lng: e.latLng.lng() });
         });
@@ -482,6 +485,10 @@ var Map = (function (_React$Component) {
       var google = this.props.google;
 
       var maps = google.maps;
+      markersArray.forEach(function (marker) {
+        marker.setMap(null);
+      });
+      markersArray = [];
 
       this.props.markers.forEach(function (flag) {
         var markerProps = _extends({}, flag, {
@@ -520,8 +527,6 @@ var Map = (function (_React$Component) {
     value: function loadMap() {
       var _this4 = this;
 
-      // if (this.props && this.props.google) {
-      // google is available
       var google = this.props.google;
 
       var maps = google.maps;
@@ -541,6 +546,9 @@ var Map = (function (_React$Component) {
       this.map = new maps.Map(node, mapConfiguration);
       google.maps.event.addListenerOnce(this.map, 'idle', function () {
         _this4.getMarkers();
+      });
+      this.setState({
+        loaded: true
       });
     }
   }, {
