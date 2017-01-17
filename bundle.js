@@ -370,7 +370,7 @@ var Map = (function (_React$Component) {
           this.insertMarker();
         }
       }
-      if (prevProps.markers !== this.props.markers && this.state.loaded) {
+      if (prevProps.markers.length !== this.props.markers.length && this.state.loaded) {
         this.getMarkers();
       }
     }
