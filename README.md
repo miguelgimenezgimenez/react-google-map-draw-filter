@@ -5,13 +5,6 @@ React component that includes a google map which allows the possibility to draw 
 Also allow the possibility to insert draggable markers and return their coordinates.
 
 
-THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleMapDrawFilter.js" Component.
-
-``` js
-export default GoogleApiComponent({
-	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-})(GoogleMapDrawFilter);
-```
 
 
 ## Demo & Examples
@@ -46,6 +39,8 @@ npm install react-google-map-draw-filter --save
 
 
 ## Usage
+
+
 
 ``` js
 const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',
@@ -149,6 +144,15 @@ GoogleMap.defaultProps={
 
 ```
 
+## NOTES
+
+THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleMapDrawFilter.js" Component.
+
+``` js
+export default GoogleApiComponent({
+	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+})(GoogleMapDrawFilter);
+```
 
 ## Development (`src`, `lib` and the build process)
 
