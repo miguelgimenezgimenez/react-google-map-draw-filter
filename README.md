@@ -35,18 +35,19 @@ npm install react-google-map-draw-filter --save
 ## Usage
 
 ``` js
-const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},
-	{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
+const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',
+latLng:{lng:2.13815342634916,lat:41.39485570794}},
+{info:' Marker2', label:'B',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
 
 import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 
 <GoogleMapDrawFilter
-					drawMode={true} //boolean that toggles draw mode (optional)
-					markers={markers} //Require latLng key with lat and lng properties	
-					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback 
-					fired when polygon is closed with the markers within the polygon as first argument
-				/>								
+			drawMode={true} //boolean that toggles draw mode (optional)
+			markers={markers} //Require latLng key with lat and lng properties	
+			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback 
+			fired when polygon is closed with the markers within the polygon as first argument
+			/>								
 				
 ```
 
