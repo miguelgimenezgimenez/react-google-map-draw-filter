@@ -1,7 +1,4 @@
 # Google Map Polygon Filter
-![effect showcase](http://i.imgur.com/WMm7sMS.gif)
-
-
 
 React component that includes a google map which allows the possibility to draw a draggable polygon that filters the markers within its area.
 
@@ -11,6 +8,12 @@ Also allow the possibility to insert draggable markers and return their coordina
 THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleMapDrawFilter.js" Component, WHICH IS IN THE "GoogleApi" FOLDER.
 
 ## Demo & Examples
+
+![effect showcase](http://i.imgur.com/WMm7sMS.gif)
+
+
+
+
 
 Live demo: [miguelgimenezgimenez.github.io/react-google-map-draw-filter](http://miguelgimenezgimenez.github.io/react-google-map-draw-filter/)
 
