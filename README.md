@@ -33,7 +33,24 @@ npm install react-google-map-draw-filter --save
 
 
 ## Usage
-The 3 main props are : 
+
+``` js
+const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
+
+import GoogleMapDrawFilter from "react-google-map-draw-filter";
+
+
+<GoogleMapDrawFilter
+					drawMode={true} //boolean that toggles draw mode (optional)
+					markers={markers} //Require latLng key with lat and lng properties	
+					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
+				/>								
+				
+```
+
+
+
+###The 3 main props are : 
 
 - #### `markers`: 
 An array of objects that has to have a [`latLng`] property with [`lat`] and  [`lng`] properties like so [`latLng:{lng:2,lat:41.}}`], this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
@@ -48,27 +65,13 @@ callback fired when marker is clicked.Also has the marker as only argument of th
 - #### `drawMode` :
 Boolean that to can be used to turn on the draw mode. By default is ON.
 
-- #### `insertMarker`
+- #### `insertMarker`:
 Boolean to insert a marker in the map. If set to on a draggable marker will be rendered in the map wherever you click. the callback handleReturnedMarkers is fired when set and dragged on the map.
 
-### Examples
-
-``` js
-const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',title:'Marker',latLng:{lng:2.13815342634916,lat:41.39485570794}},{info:' Marker2', label:'B',title:'Marker',latLng:{lng:2.13815342634926,lat:41.39485570795}}];
-
-import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 
-<GoogleMapDrawFilter
-					drawMode={true} //boolean that toggles draw mode (optional)
-					markers={markers} // array of objects containing a latLng property with lat and lng properties	
-					handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback fired when polygon is closed with the markers within the polygon as first argument
-				/>								
-				
-```
+### IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
 
-
-IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE WAVE PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
 
 ``` js
   <GoogleMapDrawFilter
