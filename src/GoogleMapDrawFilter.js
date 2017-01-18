@@ -6,8 +6,6 @@ import GoogleApiComponent from './ApiComponents/GoogleApiComponent';
 import Map from './Map';
 
 
-let ApiKey;
-
 
 class GoogleMapDrawFilter extends React.Component {
 
@@ -75,5 +73,5 @@ GoogleMapDrawFilter.defaultProps={
 
 
 export default GoogleApiComponent({
-	apiKey: ApiKey
+	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 })(GoogleMapDrawFilter);

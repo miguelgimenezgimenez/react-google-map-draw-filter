@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom'
 import cache from './ScriptCache'
 import GoogleApi from './GoogleApi'
 
-const defaultMapConfig = {}
+const defaultMapConfig = {};
 export const wrapper = (options) => (WrappedComponent) => {
-  const apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
+  const apiKey = options.apiKey;
   const libraries = options.libraries || ['places'];
 
   class Wrapper extends React.Component {
@@ -50,7 +50,7 @@ export const wrapper = (options) => (WrappedComponent) => {
           console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
 
         }
-        
+
       });
     }
 
