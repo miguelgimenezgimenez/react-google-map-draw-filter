@@ -1,6 +1,6 @@
 {
   "name": "react-google-map-draw-filter",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "GoogleMapDrawFilter",
   "main": "lib/GoogleMapDrawFilter.js",
   "author": "Miguel Gimenez",
@@ -50,6 +50,11 @@
   },
   "keywords": [
     "react",
-    "react-component"
+    "react-component",
+    "google",
+    "maps",
+    "polygon",
+    "draw",
+    "google maps"
   ]
 }

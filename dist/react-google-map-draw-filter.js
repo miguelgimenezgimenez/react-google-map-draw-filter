@@ -27,7 +27,7 @@ Object.defineProperty(exports, '__esModule', {
 var GoogleApi = function GoogleApi(opts) {
   opts = opts || {};
 
-  var apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
+  var apiKey = opts.apiKey;
   var libraries = opts.libraries || [];
   var client = opts.client;
   var URL = 'https://maps.googleapis.com/maps/api/js';
@@ -109,7 +109,7 @@ var _GoogleApi2 = _interopRequireDefault(_GoogleApi);
 var defaultMapConfig = {};
 var wrapper = function wrapper(options) {
   return function (WrappedComponent) {
-    var apiKey = 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc';
+    var apiKey = options.apiKey;
     var libraries = options.libraries || ['places'];
 
     var Wrapper = (function (_React$Component) {
@@ -350,8 +350,6 @@ var _Map = require('./Map');
 
 var _Map2 = _interopRequireDefault(_Map);
 
-var ApiKey = undefined;
-
 var GoogleMapDrawFilter = (function (_React$Component) {
 	_inherits(GoogleMapDrawFilter, _React$Component);
 
@@ -424,7 +422,7 @@ GoogleMapDrawFilter.defaultProps = {
 };
 
 exports['default'] = (0, _ApiComponentsGoogleApiComponent2['default'])({
-	apiKey: ApiKey
+	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 })(GoogleMapDrawFilter);
 module.exports = exports['default'];
 
