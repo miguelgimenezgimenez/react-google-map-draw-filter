@@ -46,7 +46,7 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 			drawMode={true} //boolean that toggles draw mode (optional)
 			markers={markers} //Require latLng key with lat and lng properties	
 			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback 
-			fired when polygon is closed with the markers within the polygon as first argument
+			//fired when polygon is closed with the markers within the polygon as first argument
 			/>								
 				
 ```
