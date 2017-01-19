@@ -4,6 +4,8 @@ React component that includes a google map which allows the possibility to draw 
 
 Also allow the possibility to insert draggable markers and return their coordinates.
 
+WIP comments and feedback are welcome
+
 
 
 
