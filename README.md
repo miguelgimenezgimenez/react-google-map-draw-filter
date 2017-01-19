@@ -2,7 +2,7 @@
 
 React component that includes a google map which allows the possibility to draw a draggable polygon that filters the markers within its area.
 
-Also allow the possibility to insert draggable markers and return their coordinates.
+Also allows the possibility to insert draggable markers and return its coordinates.
 
 WIP comments and feedback are welcome
 
