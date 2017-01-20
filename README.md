@@ -13,8 +13,6 @@ Also allow the possibility to insert draggable markers and return their coordina
 
 
 
-
-
 Live demo: [miguelgimenezgimenez.github.io/react-google-map-draw-filter](http://miguelgimenezgimenez.github.io/react-google-map-draw-filter/)
 
 To build the examples locally, run:
@@ -29,9 +27,9 @@ Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 ## Installation
 
-The easiest way to use react-gmap-filter is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), [Webpack](http://webpack.github.io/), etc).
+The easiest way to use react-google-map-draw-filter is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), [Webpack](http://webpack.github.io/), etc).
 
-You can also use the standalone build by including `dist/react-gmap-filter.js` in your page. If you use this, make sure you have already included React, and it is available as a global variable.
+You can also use the standalone build by including `dist/react-google-map-draw-filter.js` in your page. If you use this, make sure you have already included React, and it is available as a global variable.
 
 ```
 npm install react-google-map-draw-filter --save
@@ -52,18 +50,18 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 <GoogleMapDrawFilter
 			drawMode={true} //boolean that toggles draw mode (optional)
-			markers={markers} //Require latLng key with lat and lng properties	
-			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback 
+			markers={markers} //Require latLng key with lat and lng properties
+			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback
 			//fired when polygon is closed with the markers within the polygon as first argument
 			/>								
-				
+
 ```
 
 
 
-###The 3 main props are : 
+###The main props are :
 
-- #### `markers`: 
+- #### `markers`:
 An array of objects that has to have a [`latLng`] property with [`lat`] and  [`lng`] properties like so [`latLng:{lng:2,lat:41.}}`], this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
 the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
 
@@ -93,13 +91,14 @@ Boolean to insert a marker in the map. If set to on a draggable marker will be r
               />
 ```
 
+More examples here https://github.com/miguelgimenezgimenez/reactGoogleMapSampleProject
 
 
 ### PropTypes
 
 
-You can provide polygon , and Marker options the same way you would in google maps, 
-the mapStyle takes widtht and height property for the map, set to 600px by default 
+You can provide polygon , and Marker options the same way you would in google maps,
+the mapStyle takes widtht and height property for the map, set to 600px by default
 
 
 ``` js
@@ -148,7 +147,9 @@ GoogleMap.defaultProps={
 
 THIS IS JUST A TEST VERSION VERSION,API KEY IS PROVIDED, TO GIVE YOUR OWN API KEY INSERT IT IN THE "GoogleMapDrawFilter.js" Component.
 
+(GoogleMapDrawFilter file!!)
 ``` js
+
 export default GoogleApiComponent({
 	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 })(GoogleMapDrawFilter);
@@ -162,7 +163,6 @@ To build, watch and serve the examples (which will also watch the component sour
 
 ## License
 
-__PUT LICENSE HERE__
+MIT
 
 Copyright (c) 2017 Miguel Gimenez.
-
