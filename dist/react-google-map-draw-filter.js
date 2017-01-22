@@ -382,6 +382,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 })(_react2['default'].Component);
 
 GoogleMapDrawFilter.propTypes = {
+	apiKey: _react2['default'].PropTypes.string.isRequired,
 	drawMode: _react2['default'].PropTypes.bool,
 	markers: _react2['default'].PropTypes.array,
 	mapConfig: _react2['default'].PropTypes.object,
