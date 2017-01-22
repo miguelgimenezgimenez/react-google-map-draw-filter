@@ -54,21 +54,21 @@ REQUIRES API KEY AS PROP. (See example below)
 
 The main props are :
 
-- -  markers:
+####  markers:
 
 An array of objects that has to have a [latLng] property with [lat] and  [lng] properties like so [latLng:{lng:2,lat:41.}}], this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
 
 the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
 
-- - apiKey REQUIRED:
+#### apiKey REQUIRED:
   api key provided by google.
-- - handleReturnedMarkers:
+#### handleReturnedMarkers:
     callback fired when the polygon is closed returning the markers within the polygon, also when the polygon is resized, with the selected markers as only argument of the callback.
-- - onMarkerClick:
+#### onMarkerClick:
     callback fired when marker is clicked.Also has the marker as only argument of the callback.
-- - drawMode :
+#### drawMode :
     Boolean that to can be used to turn on the draw mode. By default is ON.
-- - insertMarker:
+#### insertMarker:
     Boolean to insert a marker in the map. If set to on a draggable marker will be rendered in the map wherever you click. the callback handleReturnedMarkers is fired when set and dragged on the map.
 
 IF WE WANT TO INSERT A MARKER AND GET ITS COORDINATES WE HAVE TO PASS A PROP CALLED INSERT MARKER AND SET IT AS TRUE :
