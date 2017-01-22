@@ -51,11 +51,11 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 
 <GoogleMapDrawFilter
-  			apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-			drawMode={true} //boolean that toggles draw mode (optional)
-			markers={markers} //Require latLng key with lat and lng properties
-			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback
-			//fired when polygon is closed with the markers within the polygon as first argument
+   apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+   drawMode={true} //boolean that toggles draw mode (optional)
+   markers={markers} //Require latLng key with lat and lng properties
+   handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback
+   //fired when polygon is closed with the markers within the polygon as first argument
 			/>								
 
 ```
@@ -96,11 +96,11 @@ Boolean to insert a marker in the map. If set to on a draggable marker will be r
 
 ``` js
   <GoogleMapDrawFilter
-				apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-                mapStyle={{height:400,width:800}}
-                drawMode={false}
-                insertMarker={true}
-                handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
+     apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+     mapStyle={{height:400,width:800}}
+     drawMode={false}
+     insertMarker={true}
+     handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
               />
 ```
 
