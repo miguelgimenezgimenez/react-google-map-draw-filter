@@ -40,7 +40,7 @@ npm install react-google-map-draw-filter --save
 
 ## Usage
 
-
+REQUIRES API KEY AS PROP. (See example below)
 
 ``` js
 const markers = [{info:' Marker1',icon:'image/icon.jpg', label:'A',
@@ -51,6 +51,7 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 
 <GoogleMapDrawFilter
+		        apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 			drawMode={true} //boolean that toggles draw mode (optional)
 			markers={markers} //Require latLng key with lat and lng properties
 			handleReturnedMarkers={this.handleReturnedMarkers.bind(this)} //Callback
@@ -93,7 +94,7 @@ Boolean to insert a marker in the map. If set to on a draggable marker will be r
                 drawMode={false}
                 insertMarker={true}
                 handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
-	        apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+	    	apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
 
               />
 ```
