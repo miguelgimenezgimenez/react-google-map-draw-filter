@@ -1,13 +1,12 @@
-import React, { PropTypes as T } from 'react'
-import ReactDOM from 'react-dom'
+import React, { PropTypes as T } from 'react';
+import ReactDOM from 'react-dom';
 
-import cache from './ScriptCache'
-import GoogleApi from './GoogleApi'
+import cache from './ScriptCache';
+import GoogleApi from './GoogleApi';
 
 const defaultMapConfig = {};
-export const wrapper = (options) => (WrappedComponent) => {
-  const apiKey = options.apiKey;
-  const libraries = options.libraries || ['places'];
+export const wrapper =  (WrappedComponent) => {
+
 
   class Wrapper extends React.Component {
     constructor(props, context) {
@@ -17,7 +16,7 @@ export const wrapper = (options) => (WrappedComponent) => {
         loaded: false,
         map: null,
         google: null
-      }
+      };
     }
 
     componentDidMount() {
@@ -32,11 +31,11 @@ export const wrapper = (options) => (WrappedComponent) => {
           const mapRef = refs.map;
 
           const node = ReactDOM.findDOMNode(mapRef);
-          let center = new maps.LatLng(this.props.lat, this.props.lng)
+          let center = new maps.LatLng(this.props.lat, this.props.lng);
 
           let mapConfig = Object.assign({}, defaultMapConfig, {
             center, zoom: this.props.zoom
-          })
+          });
 
           this.map = new maps.Map(node, mapConfig);
 
@@ -45,12 +44,10 @@ export const wrapper = (options) => (WrappedComponent) => {
             map: this.map,
             google: window.google
           })
-        }catch (e) {
+        } catch (e) {
           window.location.reload();
           console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
-
         }
-
       });
     }
 
@@ -58,7 +55,7 @@ export const wrapper = (options) => (WrappedComponent) => {
 
       this.scriptCache = cache({
         google: GoogleApi({
-          apiKey: apiKey,
+          apiKey: this.props.apiKey,
           libraries: ['drawing']
         })
       });

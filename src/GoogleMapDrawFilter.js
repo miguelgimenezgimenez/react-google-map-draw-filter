@@ -24,6 +24,8 @@ class GoogleMapDrawFilter extends React.Component {
 					handleReturnedMarkers={this.props.handleReturnedMarkers}
 					onMarkerClick={this.props.onMarkerClick}
 					insertMarker={this.props.insertMarker}
+					apiKey={this.props.apiKey}
+
 				/>
 
 			</div>
@@ -72,6 +74,4 @@ GoogleMapDrawFilter.defaultProps={
 
 
 
-export default GoogleApiComponent({
-	apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-})(GoogleMapDrawFilter);
+export default GoogleApiComponent(GoogleMapDrawFilter);

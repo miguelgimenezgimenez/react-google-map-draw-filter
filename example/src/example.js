@@ -39,6 +39,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('cdscfdsf');
     const markers = [
   			{
   				info:'- Marker1',
@@ -84,6 +85,8 @@ class App extends Component {
             markers={markers}
             handleReturnedMarkers={this.handleReturnedMarkers.bind(this)}
             onMarkerClick={this.onMarkerClick.bind(this)}
+            apiKey='AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
+
           />
         </div>
         <h1>{this.renderMarkerInfo.bind(this)()}</h1>
