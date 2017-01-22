@@ -64,7 +64,7 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 ### The main props are :
 
- * **apiKeyREQUIRED** :
+ * **apiKey  (REQUIRED)** :
 
 api key provided by google.
 
