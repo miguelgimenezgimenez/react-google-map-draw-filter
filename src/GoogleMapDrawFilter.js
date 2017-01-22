@@ -36,6 +36,7 @@ class GoogleMapDrawFilter extends React.Component {
 
 
 GoogleMapDrawFilter.propTypes={
+	apiKey:React.PropTypes.string.isRequired,
 	drawMode:React.PropTypes.bool,
 	markers:React.PropTypes.array,
 	mapConfig:React.PropTypes.object,
