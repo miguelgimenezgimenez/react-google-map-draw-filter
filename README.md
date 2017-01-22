@@ -64,16 +64,16 @@ import GoogleMapDrawFilter from "react-google-map-draw-filter";
 
 ###The main props are :
 
- #### apiKeyREQUIRED :
+ ###apiKeyREQUIRED :
 
 api key provided by google.
 
- #### markers :
+ ###markers :
 
 An array of objects that has to have a [`latLng`] property with [`lat`] and  [`lng`] properties like so [`latLng:{lng:2,lat:41.}}`], this markers will be returned by the callback handleReturned markers when rendered in the map, clicked on or selected within the triangle.
 the info prop will be the flag shown when the marker is clicked. You can also add a "label" prop which will be rendered inside the marker.
 
- #### handleReturnedMarkers :
+ ####handleReturnedMarkers :
 
 callback fired when the polygon is closed returning the markers within the polygon, also when the polygon is resized, with the selected markers as only argument of the callback.
 
