@@ -5,7 +5,7 @@ import isInside from 'point-in-polygon';
 
 let markersArray=[];
 let bounds;
-
+let drawingManager;
 class Map extends React.Component {
   constructor () {
     super();
@@ -20,6 +20,7 @@ class Map extends React.Component {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
       if (this.props.drawMode) {
+        console.log('cdup');
         this.drawPolyline();
       }
       if (this.props.insertMarker) {
@@ -30,11 +31,13 @@ class Map extends React.Component {
     if (prevProps.markers.length!==this.props.markers.length &&this.markers!=prevProps.markers && this.state.loaded){
       this.getMarkers();
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
     const google = this.props.google;
+    if (drawingManager && nextProps.drawMode!=this.props.drawMode) {
+      drawingManager.setDrawingMode(null);
+    }
     if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
       this.drawPolyline();
     }
@@ -63,7 +66,7 @@ class Map extends React.Component {
   drawPolyline(){
     const google = this.props.google;
 
-    let drawingManager = new google.maps.drawing.DrawingManager({
+     drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.POLYGON,
       drawingControl: false,
       polygonOptions:this.props.polygonOptions
