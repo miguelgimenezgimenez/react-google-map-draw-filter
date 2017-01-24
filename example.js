@@ -74,7 +74,6 @@ var App = (function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('cdscfdsf');
       var markers = [{
         info: '- Marker1',
         label: 'A',
@@ -115,7 +114,6 @@ var App = (function (_Component) {
             handleReturnedMarkers: this.handleReturnedMarkers.bind(this),
             onMarkerClick: this.onMarkerClick.bind(this),
             apiKey: 'AIzaSyADYWSlC4yEedJ-5lvQb9UFOVaMMux54Zc'
-
           })
         ),
         _react2['default'].createElement(

@@ -338,6 +338,7 @@ var _pointInPolygon2 = _interopRequireDefault(_pointInPolygon);
 
 var markersArray = [];
 var bounds = undefined;
+var drawingManager = undefined;
 
 var Map = (function (_React$Component) {
   _inherits(Map, _React$Component);
@@ -359,6 +360,7 @@ var Map = (function (_React$Component) {
       if (prevProps.google !== this.props.google) {
         this.loadMap();
         if (this.props.drawMode) {
+          console.log('cdup');
           this.drawPolyline();
         }
         if (this.props.insertMarker) {
@@ -373,6 +375,9 @@ var Map = (function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var google = this.props.google;
+      if (drawingManager && nextProps.drawMode != this.props.drawMode) {
+        drawingManager.setDrawingMode(null);
+      }
       if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
         this.drawPolyline();
       }
@@ -405,7 +410,7 @@ var Map = (function (_React$Component) {
     value: function drawPolyline() {
       var google = this.props.google;
 
-      var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControl: false,
         polygonOptions: this.props.polygonOptions
@@ -639,6 +644,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 })(_react2['default'].Component);
 
 GoogleMapDrawFilter.propTypes = {
+	apiKey: _react2['default'].PropTypes.string.isRequired,
 	drawMode: _react2['default'].PropTypes.bool,
 	markers: _react2['default'].PropTypes.array,
 	mapConfig: _react2['default'].PropTypes.object,
