@@ -129,32 +129,28 @@ var wrapper = function wrapper(WrappedComponent) {
 
         var refs = this.refs;
         this.scriptCache.google.onLoad(function (err, tag) {
-          try {
-            var maps = window.google.maps;
-            var props = _extends({}, _this.props, {
-              loaded: _this.state.loaded
-            });
+          var maps = window.google.maps;
 
-            var mapRef = refs.map;
+          var props = _extends({}, _this.props, {
+            loaded: _this.state.loaded
+          });
 
-            var node = _reactDom2['default'].findDOMNode(mapRef);
-            var center = new maps.LatLng(_this.props.lat, _this.props.lng);
+          var mapRef = refs.map;
 
-            var mapConfig = _extends({}, defaultMapConfig, {
-              center: center, zoom: _this.props.zoom
-            });
+          var node = _reactDom2['default'].findDOMNode(mapRef);
+          var center = new maps.LatLng(_this.props.lat, _this.props.lng);
 
-            _this.map = new maps.Map(node, mapConfig);
+          var mapConfig = _extends({}, defaultMapConfig, {
+            center: center, zoom: _this.props.zoom
+          });
 
-            _this.setState({
-              loaded: true,
-              map: _this.map,
-              google: window.google
-            });
-          } catch (e) {
-            window.location.reload();
-            console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
-          }
+          _this.map = new maps.Map(node, mapConfig);
+
+          _this.setState({
+            loaded: true,
+            map: _this.map,
+            google: window.google
+          });
         });
       }
     }, {
@@ -222,71 +218,67 @@ var ScriptCache = (function (global) {
     };
 
     Cache._scriptTag = function (key, src) {
-      if (!scriptMap.has(key)) {
-        (function () {
-          var tag = document.createElement('script');
-          var promise = new Promise(function (resolve, reject) {
-            var resolved = false,
-                errored = false,
-                body = document.getElementsByTagName('body')[0];
+      var tag = document.createElement('script');
+      var promise = new Promise(function (resolve, reject) {
+        var resolved = false,
+            errored = false,
+            body = document.getElementsByTagName('body')[0];
 
-            tag.type = 'text/javascript';
-            tag.async = false; // Load in order
+        tag.type = 'text/javascript';
+        tag.async = false; // Load in order
 
-            var cbName = 'loaderCB' + counter++ + Date.now();
-            var cb = undefined;
+        var cbName = 'loaderCB' + counter++ + Date.now();
+        var cb = undefined;
 
-            var cleanup = function cleanup() {
-              if (global[cbName] && typeof global[cbName] === 'function') {
-                global[cbName] = null;
+        var cleanup = function cleanup() {
+          if (global[cbName] && typeof global[cbName] === 'function') {
+            global[cbName] = null;
+          }
+        };
+        var handleResult = function handleResult(state) {
+          return function (evt) {
+            var stored = scriptMap.get(key);
+            if (state === 'loaded') {
+              stored.resolved = true;
+              resolve(src);
+              // stored.handlers.forEach(h => h.call(null, stored))
+              // stored.handlers = []
+            } else if (state === 'error') {
+                stored.errored = true;
+                // stored.handlers.forEach(h => h.call(null, stored))
+                // stored.handlers = [];
+                reject(evt);
               }
-            };
-            var handleResult = function handleResult(state) {
-              return function (evt) {
-                var stored = scriptMap.get(key);
-                if (state === 'loaded') {
-                  stored.resolved = true;
-                  resolve(src);
-                  // stored.handlers.forEach(h => h.call(null, stored))
-                  // stored.handlers = []
-                } else if (state === 'error') {
-                    stored.errored = true;
-                    // stored.handlers.forEach(h => h.call(null, stored))
-                    // stored.handlers = [];
-                    reject(evt);
-                  }
-                cleanup();
-              };
-            };
-
-            tag.onload = handleResult('loaded');
-            tag.onerror = handleResult('error');
-            tag.onreadystatechange = function () {
-              handleResult(tag.readyState);
-            };
-
-            // Pick off callback, if there is one
-            if (src.match(/callback=CALLBACK_NAME/)) {
-              src = src.replace(/(callback=)[^\&]+/, '$1' + cbName);
-              cb = window[cbName] = tag.onload;
-            } else {
-              tag.addEventListener('load', tag.onload);
-            }
-            tag.addEventListener('error', tag.onerror);
-
-            tag.src = src;
-            body.appendChild(tag);
-            return tag;
-          });
-          var initialState = {
-            loaded: false,
-            error: false,
-            promise: promise,
-            tag: tag
+            cleanup();
           };
-          scriptMap.set(key, initialState);
-        })();
-      }
+        };
+
+        tag.onload = handleResult('loaded');
+        tag.onerror = handleResult('error');
+        tag.onreadystatechange = function () {
+          handleResult(tag.readyState);
+        };
+
+        // Pick off callback, if there is one
+        if (src.match(/callback=CALLBACK_NAME/)) {
+          src = src.replace(/(callback=)[^\&]+/, '$1' + cbName);
+          cb = window[cbName] = tag.onload;
+        } else {
+          tag.addEventListener('load', tag.onload);
+        }
+        tag.addEventListener('error', tag.onerror);
+
+        tag.src = src;
+        body.appendChild(tag);
+        return tag;
+      });
+      var initialState = {
+        loaded: false,
+        error: false,
+        promise: promise,
+        tag: tag
+      };
+      scriptMap.set(key, initialState);
       return scriptMap.get(key);
     };
 
@@ -360,7 +352,6 @@ var Map = (function (_React$Component) {
       if (prevProps.google !== this.props.google) {
         this.loadMap();
         if (this.props.drawMode) {
-          console.log('cdup');
           this.drawPolyline();
         }
         if (this.props.insertMarker) {
