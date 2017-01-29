@@ -20,13 +20,11 @@ class Map extends React.Component {
     if (prevProps.google !== this.props.google) {
       this.loadMap();
       if (this.props.drawMode) {
-        console.log('cdup');
         this.drawPolyline();
       }
       if (this.props.insertMarker) {
         this.insertMarker();
       }
-
     }
     if (prevProps.markers.length!==this.props.markers.length &&this.markers!=prevProps.markers && this.state.loaded){
       this.getMarkers();

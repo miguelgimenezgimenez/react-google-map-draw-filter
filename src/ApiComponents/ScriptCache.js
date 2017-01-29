@@ -19,7 +19,6 @@ export const ScriptCache = (function(global) {
     }
 
     Cache._scriptTag = (key, src) => {
-      if (!scriptMap.has(key)) {
         let tag = document.createElement('script');
         let promise = new Promise((resolve, reject) => {
           let resolved = false,
@@ -31,13 +30,14 @@ export const ScriptCache = (function(global) {
 
           const cbName = `loaderCB${counter++}${Date.now()}`;
           let cb;
-          
+
           const cleanup = () => {
             if (global[cbName] && typeof global[cbName] === 'function') {
               global[cbName] = null;
             }
           }
           let handleResult = (state) => {
+            console.log(state);
             return (evt) => {
               let stored = scriptMap.get(key);
               if (state === 'loaded') {
@@ -83,7 +83,6 @@ export const ScriptCache = (function(global) {
           tag
         }
         scriptMap.set(key, initialState);
-      }
       return scriptMap.get(key);
     }
 
