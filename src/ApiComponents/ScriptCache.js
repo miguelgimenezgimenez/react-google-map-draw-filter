@@ -37,7 +37,6 @@ export const ScriptCache = (function(global) {
             }
           }
           let handleResult = (state) => {
-            console.log(state);
             return (evt) => {
               let stored = scriptMap.get(key);
               if (state === 'loaded') {

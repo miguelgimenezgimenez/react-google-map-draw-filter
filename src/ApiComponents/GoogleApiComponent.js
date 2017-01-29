@@ -22,8 +22,8 @@ export const wrapper =  (WrappedComponent) => {
     componentDidMount() {
       const refs = this.refs;
       this.scriptCache.google.onLoad((err, tag) => {
-        try {
           const maps = window.google.maps;
+
           const props = Object.assign({}, this.props, {
             loaded: this.state.loaded
           });
@@ -44,10 +44,7 @@ export const wrapper =  (WrappedComponent) => {
             map: this.map,
             google: window.google
           })
-        } catch (e) {
-          window.location.reload();
-          console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
-        }
+
       });
     }
 
