@@ -219,6 +219,7 @@ var ScriptCache = (function (global) {
 
     Cache._scriptTag = function (key, src) {
       var tag = document.createElement('script');
+      console.log(tag);
       var promise = new Promise(function (resolve, reject) {
         var resolved = false,
             errored = false,
