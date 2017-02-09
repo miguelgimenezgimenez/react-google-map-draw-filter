@@ -129,6 +129,7 @@ var wrapper = function wrapper(WrappedComponent) {
 
         var refs = this.refs;
         this.scriptCache.google.onLoad(function (err, tag) {
+
           var maps = window.google.maps;
 
           var props = _extends({}, _this.props, {
@@ -160,7 +161,7 @@ var wrapper = function wrapper(WrappedComponent) {
         this.scriptCache = (0, _ScriptCache2['default'])({
           google: (0, _GoogleApi2['default'])({
             apiKey: this.props.apiKey,
-            libraries: ['drawing']
+            libraries: ['drawing', 'visualization']
           })
         });
       }
@@ -219,7 +220,6 @@ var ScriptCache = (function (global) {
 
     Cache._scriptTag = function (key, src) {
       var tag = document.createElement('script');
-      console.log(tag);
       var promise = new Promise(function (resolve, reject) {
         var resolved = false,
             errored = false,
@@ -280,6 +280,7 @@ var ScriptCache = (function (global) {
         tag: tag
       };
       scriptMap.set(key, initialState);
+
       return scriptMap.get(key);
     };
 
@@ -349,7 +350,6 @@ var Map = (function (_React$Component) {
   _createClass(Map, [{
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-
       if (prevProps.google !== this.props.google) {
         this.loadMap();
         if (this.props.drawMode) {
@@ -357,6 +357,9 @@ var Map = (function (_React$Component) {
         }
         if (this.props.insertMarker) {
           this.insertMarker();
+        }
+        if (this.props.heatMap) {
+          this.heatMap();
         }
       }
       if (prevProps.markers.length !== this.props.markers.length && this.markers != prevProps.markers && this.state.loaded) {
@@ -372,7 +375,23 @@ var Map = (function (_React$Component) {
       }
       if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
         this.drawPolyline();
+        console.log('heatMap');
       }
+    }
+  }, {
+    key: 'heatMap',
+    value: function heatMap() {
+      var google = this.props.google;
+
+      var maps = google.maps;
+      var points = this.props.markers.map(function (point) {
+        return new google.maps.LatLng(point.latLng.lat, point.latLng.lng);
+      });
+
+      var heatmap = new maps.visualization.HeatmapLayer({
+        data: points,
+        map: this.map
+      });
     }
   }, {
     key: 'insertMarker',
@@ -519,29 +538,32 @@ var Map = (function (_React$Component) {
     value: function loadMap() {
       var _this4 = this;
 
-      var google = this.props.google;
+      try {
+        var google = this.props.google;
 
-      var maps = google.maps;
+        var maps = google.maps;
+        var mapRef = this.refs.map;
+        var node = _reactDom2['default'].findDOMNode(mapRef);
+        var mapConfig = this.props.mapConfig;
+        var zoom = mapConfig.zoom;
+        var lat = mapConfig.lat;
+        var lng = mapConfig.lng;
 
-      var mapRef = this.refs.map;
-      var node = _reactDom2['default'].findDOMNode(mapRef);
-      var mapConfig = this.props.mapConfig;
-      var zoom = mapConfig.zoom;
-      var lat = mapConfig.lat;
-      var lng = mapConfig.lng;
-
-      var center = new maps.LatLng(lat, lng);
-      var mapConfiguration = _extends({}, {
-        center: center,
-        zoom: zoom
-      });
-      this.map = new maps.Map(node, mapConfiguration);
-      google.maps.event.addListenerOnce(this.map, 'idle', function () {
-        _this4.getMarkers();
-      });
-      this.setState({
-        loaded: true
-      });
+        var center = new maps.LatLng(lat, lng);
+        var mapConfiguration = _extends({}, {
+          center: center,
+          zoom: zoom
+        });
+        this.map = new maps.Map(node, mapConfiguration);
+        google.maps.event.addListenerOnce(this.map, 'idle', function () {
+          _this4.getMarkers();
+        });
+        this.setState({
+          loaded: true
+        });
+      } catch (e) {
+        console.log('error in load');
+      }
     }
   }, {
     key: 'render',
@@ -617,6 +639,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 				null,
 				_react2['default'].createElement(_Map2['default'], {
 					google: this.props.google,
+					heatMap: this.props.heatMap,
 					drawMode: this.props.drawMode,
 					markers: this.props.markers,
 					mapConfig: this.props.mapConfig,
@@ -626,7 +649,6 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 					onMarkerClick: this.props.onMarkerClick,
 					insertMarker: this.props.insertMarker,
 					apiKey: this.props.apiKey
-
 				})
 			);
 		}
@@ -638,6 +660,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 GoogleMapDrawFilter.propTypes = {
 	apiKey: _react2['default'].PropTypes.string.isRequired,
 	drawMode: _react2['default'].PropTypes.bool,
+	heatMap: _react2['default'].PropTypes.bool,
 	markers: _react2['default'].PropTypes.array,
 	mapConfig: _react2['default'].PropTypes.object,
 	polygonOptions: _react2['default'].PropTypes.object,
