@@ -16,6 +16,7 @@ class GoogleMapDrawFilter extends React.Component {
 			<div >
 				<Map
 					google={this.props.google}
+					heatMap={this.props.heatMap}
 					drawMode={this.props.drawMode}
 					markers={this.props.markers}
 					mapConfig={this.props.mapConfig}
@@ -25,7 +26,6 @@ class GoogleMapDrawFilter extends React.Component {
 					onMarkerClick={this.props.onMarkerClick}
 					insertMarker={this.props.insertMarker}
 					apiKey={this.props.apiKey}
-
 				/>
 
 			</div>
@@ -38,6 +38,7 @@ class GoogleMapDrawFilter extends React.Component {
 GoogleMapDrawFilter.propTypes={
 	apiKey:React.PropTypes.string.isRequired,
 	drawMode:React.PropTypes.bool,
+	heatMap:React.PropTypes.bool,
 	markers:React.PropTypes.array,
 	mapConfig:React.PropTypes.object,
 	polygonOptions:React.PropTypes.object,

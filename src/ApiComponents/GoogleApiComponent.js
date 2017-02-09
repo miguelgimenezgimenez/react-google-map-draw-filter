@@ -20,8 +20,10 @@ export const wrapper =  (WrappedComponent) => {
     }
 
     componentDidMount() {
+
       const refs = this.refs;
       this.scriptCache.google.onLoad((err, tag) => {
+        
           const maps = window.google.maps;
 
           const props = Object.assign({}, this.props, {
@@ -53,7 +55,7 @@ export const wrapper =  (WrappedComponent) => {
       this.scriptCache = cache({
         google: GoogleApi({
           apiKey: this.props.apiKey,
-          libraries: ['drawing']
+          libraries: ['drawing', 'visualization']
         })
       });
     }

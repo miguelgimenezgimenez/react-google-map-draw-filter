@@ -82,6 +82,7 @@ export const ScriptCache = (function(global) {
           tag
         }
         scriptMap.set(key, initialState);
+
       return scriptMap.get(key);
     }
 

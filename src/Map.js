@@ -16,7 +16,6 @@ class Map extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     if (prevProps.google !== this.props.google) {
       this.loadMap();
       if (this.props.drawMode) {
@@ -25,9 +24,13 @@ class Map extends React.Component {
       if (this.props.insertMarker) {
         this.insertMarker();
       }
+      if (this.props.heatMap) {
+        this.heatMap();
+      }
     }
     if (prevProps.markers.length!==this.props.markers.length &&this.markers!=prevProps.markers && this.state.loaded){
       this.getMarkers();
+
     }
   }
 
@@ -38,9 +41,27 @@ class Map extends React.Component {
     }
     if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
       this.drawPolyline();
+      console.log('heatMap');
     }
 
   }
+
+
+
+  heatMap(){
+    const {google} = this.props;
+    const maps = google.maps;
+    const points=this.props.markers.map((point) => (
+        new google.maps.LatLng(point.latLng.lat,point.latLng.lng)
+    ));
+
+    let heatmap = new maps.visualization.HeatmapLayer({
+      data:points ,
+      map: this.map
+    });
+  }
+
+
   insertMarker(){
     const {google} = this.props;
     const maps = google.maps;
@@ -64,7 +85,7 @@ class Map extends React.Component {
   drawPolyline(){
     const google = this.props.google;
 
-     drawingManager = new google.maps.drawing.DrawingManager({
+    drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.POLYGON,
       drawingControl: false,
       polygonOptions:this.props.polygonOptions
@@ -170,28 +191,31 @@ class Map extends React.Component {
   }
 
   loadMap(){
+    try {
+      const {google} = this.props;
+      const maps = google.maps;
+      const mapRef = this.refs.map;
+      const node = ReactDOM.findDOMNode(mapRef);
+      const {mapConfig}=this.props;
+      let {zoom} = mapConfig;
+      let {lat} = mapConfig;
+      let {lng} = mapConfig;
+      const center = new maps.LatLng(lat, lng);
+      const mapConfiguration = Object.assign({}, {
+        center: center,
+        zoom: zoom
+      })
+      this.map = new maps.Map(node, mapConfiguration);
+      google.maps.event.addListenerOnce(this.map, 'idle', ()=>{
+        this.getMarkers();
+      });
+      this.setState({
+        loaded: true
+      });
 
-    const {google} = this.props;
-    const maps = google.maps;
-
-    const mapRef = this.refs.map;
-    const node = ReactDOM.findDOMNode(mapRef);
-    const {mapConfig}=this.props;
-    let {zoom} = mapConfig;
-    let {lat} = mapConfig;
-    let {lng} = mapConfig;
-    const center = new maps.LatLng(lat, lng);
-    const mapConfiguration = Object.assign({}, {
-      center: center,
-      zoom: zoom
-    })
-    this.map = new maps.Map(node, mapConfiguration);
-    google.maps.event.addListenerOnce(this.map, 'idle', ()=>{
-      this.getMarkers();
-    });
-    this.setState({
-      loaded: true
-    });
+    } catch (e) {
+      console.log('error in load');
+    }
 
   }
 
