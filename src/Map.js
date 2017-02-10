@@ -28,9 +28,8 @@ class Map extends React.Component {
         this.heatMap();
       }
     }
-    if (prevProps.markers.length!==this.props.markers.length &&this.markers!=prevProps.markers && this.state.loaded){
+    if (prevProps.markers.length!==this.props.markers.length &&this.markers!=prevProps.markers && this.state.loaded&&!this.props.heatMap){
       this.getMarkers();
-
     }
   }
 
@@ -41,7 +40,6 @@ class Map extends React.Component {
     }
     if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
       this.drawPolyline();
-      console.log('heatMap');
     }
 
   }
@@ -49,8 +47,10 @@ class Map extends React.Component {
 
 
   heatMap(){
+
     const {google} = this.props;
     const maps = google.maps;
+    console.log(this.props.markers);
     const points=this.props.markers.map((point) => (
         new google.maps.LatLng(point.latLng.lat,point.latLng.lng)
     ));
@@ -150,6 +150,7 @@ class Map extends React.Component {
   // DISPLAY MARKERS IN MAP
   //======================================================
   getMarkers(){
+    console.log('getMarkers');
     const {google} = this.props;
     const maps = google.maps;
     markersArray.forEach(marker=>{
@@ -207,7 +208,9 @@ class Map extends React.Component {
       })
       this.map = new maps.Map(node, mapConfiguration);
       google.maps.event.addListenerOnce(this.map, 'idle', ()=>{
-        this.getMarkers();
+        if (!this.props.heatMap) {
+          this.getMarkers();
+        }
       });
       this.setState({
         loaded: true

@@ -130,32 +130,29 @@ var wrapper = function wrapper(WrappedComponent) {
 
         var refs = this.refs;
         this.scriptCache.google.onLoad(function (err, tag) {
-          try {
-            var maps = window.google.maps;
-            var props = _extends({}, _this.props, {
-              loaded: _this.state.loaded
-            });
 
-            var mapRef = refs.map;
+          var maps = window.google.maps;
 
-            var node = _reactDom2['default'].findDOMNode(mapRef);
-            var center = new maps.LatLng(_this.props.lat, _this.props.lng);
+          var props = _extends({}, _this.props, {
+            loaded: _this.state.loaded
+          });
 
-            var mapConfig = _extends({}, defaultMapConfig, {
-              center: center, zoom: _this.props.zoom
-            });
+          var mapRef = refs.map;
 
-            _this.map = new maps.Map(node, mapConfig);
+          var node = _reactDom2['default'].findDOMNode(mapRef);
+          var center = new maps.LatLng(_this.props.lat, _this.props.lng);
 
-            _this.setState({
-              loaded: true,
-              map: _this.map,
-              google: window.google
-            });
-          } catch (e) {
-            window.location.reload();
-            console.log('react-google-map-draw-filter is reloading page to get google window, in next release this should be fixed');
-          }
+          var mapConfig = _extends({}, defaultMapConfig, {
+            center: center, zoom: _this.props.zoom
+          });
+
+          _this.map = new maps.Map(node, mapConfig);
+
+          _this.setState({
+            loaded: true,
+            map: _this.map,
+            google: window.google
+          });
         });
       }
     }, {
@@ -165,7 +162,7 @@ var wrapper = function wrapper(WrappedComponent) {
         this.scriptCache = (0, _ScriptCache2['default'])({
           google: (0, _GoogleApi2['default'])({
             apiKey: this.props.apiKey,
-            libraries: ['drawing']
+            libraries: ['drawing', 'visualization']
           })
         });
       }
@@ -224,71 +221,68 @@ var ScriptCache = (function (global) {
     };
 
     Cache._scriptTag = function (key, src) {
-      if (!scriptMap.has(key)) {
-        (function () {
-          var tag = document.createElement('script');
-          var promise = new Promise(function (resolve, reject) {
-            var resolved = false,
-                errored = false,
-                body = document.getElementsByTagName('body')[0];
+      var tag = document.createElement('script');
+      var promise = new Promise(function (resolve, reject) {
+        var resolved = false,
+            errored = false,
+            body = document.getElementsByTagName('body')[0];
 
-            tag.type = 'text/javascript';
-            tag.async = false; // Load in order
+        tag.type = 'text/javascript';
+        tag.async = false; // Load in order
 
-            var cbName = 'loaderCB' + counter++ + Date.now();
-            var cb = undefined;
+        var cbName = 'loaderCB' + counter++ + Date.now();
+        var cb = undefined;
 
-            var cleanup = function cleanup() {
-              if (global[cbName] && typeof global[cbName] === 'function') {
-                global[cbName] = null;
+        var cleanup = function cleanup() {
+          if (global[cbName] && typeof global[cbName] === 'function') {
+            global[cbName] = null;
+          }
+        };
+        var handleResult = function handleResult(state) {
+          return function (evt) {
+            var stored = scriptMap.get(key);
+            if (state === 'loaded') {
+              stored.resolved = true;
+              resolve(src);
+              // stored.handlers.forEach(h => h.call(null, stored))
+              // stored.handlers = []
+            } else if (state === 'error') {
+                stored.errored = true;
+                // stored.handlers.forEach(h => h.call(null, stored))
+                // stored.handlers = [];
+                reject(evt);
               }
-            };
-            var handleResult = function handleResult(state) {
-              return function (evt) {
-                var stored = scriptMap.get(key);
-                if (state === 'loaded') {
-                  stored.resolved = true;
-                  resolve(src);
-                  // stored.handlers.forEach(h => h.call(null, stored))
-                  // stored.handlers = []
-                } else if (state === 'error') {
-                    stored.errored = true;
-                    // stored.handlers.forEach(h => h.call(null, stored))
-                    // stored.handlers = [];
-                    reject(evt);
-                  }
-                cleanup();
-              };
-            };
-
-            tag.onload = handleResult('loaded');
-            tag.onerror = handleResult('error');
-            tag.onreadystatechange = function () {
-              handleResult(tag.readyState);
-            };
-
-            // Pick off callback, if there is one
-            if (src.match(/callback=CALLBACK_NAME/)) {
-              src = src.replace(/(callback=)[^\&]+/, '$1' + cbName);
-              cb = window[cbName] = tag.onload;
-            } else {
-              tag.addEventListener('load', tag.onload);
-            }
-            tag.addEventListener('error', tag.onerror);
-
-            tag.src = src;
-            body.appendChild(tag);
-            return tag;
-          });
-          var initialState = {
-            loaded: false,
-            error: false,
-            promise: promise,
-            tag: tag
+            cleanup();
           };
-          scriptMap.set(key, initialState);
-        })();
-      }
+        };
+
+        tag.onload = handleResult('loaded');
+        tag.onerror = handleResult('error');
+        tag.onreadystatechange = function () {
+          handleResult(tag.readyState);
+        };
+
+        // Pick off callback, if there is one
+        if (src.match(/callback=CALLBACK_NAME/)) {
+          src = src.replace(/(callback=)[^\&]+/, '$1' + cbName);
+          cb = window[cbName] = tag.onload;
+        } else {
+          tag.addEventListener('load', tag.onload);
+        }
+        tag.addEventListener('error', tag.onerror);
+
+        tag.src = src;
+        body.appendChild(tag);
+        return tag;
+      });
+      var initialState = {
+        loaded: false,
+        error: false,
+        promise: promise,
+        tag: tag
+      };
+      scriptMap.set(key, initialState);
+
       return scriptMap.get(key);
     };
 
@@ -363,6 +357,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 				null,
 				_react2['default'].createElement(_Map2['default'], {
 					google: this.props.google,
+					heatMap: this.props.heatMap,
 					drawMode: this.props.drawMode,
 					markers: this.props.markers,
 					mapConfig: this.props.mapConfig,
@@ -372,7 +367,6 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 					onMarkerClick: this.props.onMarkerClick,
 					insertMarker: this.props.insertMarker,
 					apiKey: this.props.apiKey
-
 				})
 			);
 		}
@@ -384,6 +378,7 @@ var GoogleMapDrawFilter = (function (_React$Component) {
 GoogleMapDrawFilter.propTypes = {
 	apiKey: _react2['default'].PropTypes.string.isRequired,
 	drawMode: _react2['default'].PropTypes.bool,
+	heatMap: _react2['default'].PropTypes.bool,
 	markers: _react2['default'].PropTypes.array,
 	mapConfig: _react2['default'].PropTypes.object,
 	polygonOptions: _react2['default'].PropTypes.object,
@@ -457,6 +452,7 @@ var _pointInPolygon2 = _interopRequireDefault(_pointInPolygon);
 
 var markersArray = [];
 var bounds = undefined;
+var drawingManager = undefined;
 
 var Map = (function (_React$Component) {
   _inherits(Map, _React$Component);
@@ -474,7 +470,6 @@ var Map = (function (_React$Component) {
   _createClass(Map, [{
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-
       if (prevProps.google !== this.props.google) {
         this.loadMap();
         if (this.props.drawMode) {
@@ -482,6 +477,9 @@ var Map = (function (_React$Component) {
         }
         if (this.props.insertMarker) {
           this.insertMarker();
+        }
+        if (this.props.heatMap) {
+          this.heatMap();
         }
       }
       if (prevProps.markers.length !== this.props.markers.length && this.markers != prevProps.markers && this.state.loaded) {
@@ -492,9 +490,28 @@ var Map = (function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var google = this.props.google;
+      if (drawingManager && nextProps.drawMode != this.props.drawMode) {
+        drawingManager.setDrawingMode(null);
+      }
       if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
         this.drawPolyline();
+        console.log('heatMap');
       }
+    }
+  }, {
+    key: 'heatMap',
+    value: function heatMap() {
+      var google = this.props.google;
+
+      var maps = google.maps;
+      var points = this.props.markers.map(function (point) {
+        return new google.maps.LatLng(point.latLng.lat, point.latLng.lng);
+      });
+
+      var heatmap = new maps.visualization.HeatmapLayer({
+        data: points,
+        map: this.map
+      });
     }
   }, {
     key: 'insertMarker',
@@ -524,7 +541,7 @@ var Map = (function (_React$Component) {
     value: function drawPolyline() {
       var google = this.props.google;
 
-      var drawingManager = new google.maps.drawing.DrawingManager({
+      drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         drawingControl: false,
         polygonOptions: this.props.polygonOptions
@@ -641,29 +658,32 @@ var Map = (function (_React$Component) {
     value: function loadMap() {
       var _this4 = this;
 
-      var google = this.props.google;
+      try {
+        var google = this.props.google;
 
-      var maps = google.maps;
+        var maps = google.maps;
+        var mapRef = this.refs.map;
+        var node = _reactDom2['default'].findDOMNode(mapRef);
+        var mapConfig = this.props.mapConfig;
+        var zoom = mapConfig.zoom;
+        var lat = mapConfig.lat;
+        var lng = mapConfig.lng;
 
-      var mapRef = this.refs.map;
-      var node = _reactDom2['default'].findDOMNode(mapRef);
-      var mapConfig = this.props.mapConfig;
-      var zoom = mapConfig.zoom;
-      var lat = mapConfig.lat;
-      var lng = mapConfig.lng;
-
-      var center = new maps.LatLng(lat, lng);
-      var mapConfiguration = _extends({}, {
-        center: center,
-        zoom: zoom
-      });
-      this.map = new maps.Map(node, mapConfiguration);
-      google.maps.event.addListenerOnce(this.map, 'idle', function () {
-        _this4.getMarkers();
-      });
-      this.setState({
-        loaded: true
-      });
+        var center = new maps.LatLng(lat, lng);
+        var mapConfiguration = _extends({}, {
+          center: center,
+          zoom: zoom
+        });
+        this.map = new maps.Map(node, mapConfiguration);
+        google.maps.event.addListenerOnce(this.map, 'idle', function () {
+          _this4.getMarkers();
+        });
+        this.setState({
+          loaded: true
+        });
+      } catch (e) {
+        console.log('error in load');
+      }
     }
   }, {
     key: 'render',
