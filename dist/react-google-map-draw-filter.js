@@ -482,7 +482,7 @@ var Map = (function (_React$Component) {
           this.heatMap();
         }
       }
-      if (prevProps.markers.length !== this.props.markers.length && this.markers != prevProps.markers && this.state.loaded) {
+      if (prevProps.markers.length !== this.props.markers.length && this.markers != prevProps.markers && this.state.loaded && !this.props.heatMap) {
         this.getMarkers();
       }
     }
@@ -495,7 +495,6 @@ var Map = (function (_React$Component) {
       }
       if (this.props.drawMode !== nextProps.drawMode && nextProps.drawMode && this.props.google) {
         this.drawPolyline();
-        console.log('heatMap');
       }
     }
   }, {
@@ -504,6 +503,7 @@ var Map = (function (_React$Component) {
       var google = this.props.google;
 
       var maps = google.maps;
+      console.log(this.props.markers);
       var points = this.props.markers.map(function (point) {
         return new google.maps.LatLng(point.latLng.lat, point.latLng.lng);
       });
@@ -613,6 +613,7 @@ var Map = (function (_React$Component) {
     value: function getMarkers() {
       var _this3 = this;
 
+      console.log('getMarkers');
       var google = this.props.google;
 
       var maps = google.maps;
@@ -676,7 +677,9 @@ var Map = (function (_React$Component) {
         });
         this.map = new maps.Map(node, mapConfiguration);
         google.maps.event.addListenerOnce(this.map, 'idle', function () {
-          _this4.getMarkers();
+          if (!_this4.props.heatMap) {
+            _this4.getMarkers();
+          }
         });
         this.setState({
           loaded: true

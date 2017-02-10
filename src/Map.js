@@ -50,7 +50,6 @@ class Map extends React.Component {
 
     const {google} = this.props;
     const maps = google.maps;
-    console.log(this.props.markers);
     const points=this.props.markers.map((point) => (
         new google.maps.LatLng(point.latLng.lat,point.latLng.lng)
     ));
